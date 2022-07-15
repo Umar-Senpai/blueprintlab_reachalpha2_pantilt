@@ -1,0 +1,44 @@
+<launch>
+
+  <!-- FOR NORMAL USB CAMERA -->
+  <node name="usb_cam" pkg="usb_cam" type="usb_cam_node" output="screen" >
+    <param name="video_device" value="/dev/video0" />
+    <param name="image_width" value="640" />
+    <param name="image_height" value="480" />
+    <param name="pixel_format" value="yuyv" />
+    <param name="camera_frame_id" value="usb_cam" />
+    <param name="io_method" value="mmap"/>
+  </node>
+  <node name="image_view" pkg="image_view" type="image_view" respawn="false" output="screen">
+    <remap from="image" to="/usb_cam/image_raw"/>
+    <param name="autosize" value="true" />
+  </node>
+
+  <!-- FOR ANALOG USB CAMERA -->
+  <!-- <arg name="robot_name" default="alpha2_reach"/>
+    <node name="camera_gripper" pkg="usb_cam" type="usb_cam_node" output="screen">
+        <param name="video_device" value="/dev/video0"/>
+        <param name="image_width" value="720"/>
+        <param name="image_height" value="576"/>
+        <param name="pixel_format" value="yuyv"/>
+        <param name="camera_frame_id" value="$(arg robot_name)/camera_gripper"/>
+        <param name="io_method" value="mmap"/>
+        <param name="framerate" value="60"/>
+    </node>
+  <node name="gripper_deint" pkg="tud_img_prep" type="img_prep" output="screen">
+         <remap from="/cam/image_raw" to="camera_gripper/image_raw"/>
+         <remap from="/cam/camera_info" to="camera_gripper/camera_info"/>
+         <remap from="/prep/cam/image_raw" to="usb_cam/image_raw"/>
+         <remap from="/prep/cam/camera_info" to="camera_gripper_prep/camera_info"/>
+         <param name="color_encoding" value="1"/>
+         <param name="equalization_method" value="0"/>
+     </node>
+    <group ns="camera_gripper_prep">
+      <node name="gripper_proc" pkg="image_proc" type="image_proc"/>
+    </group> -->
+
+  <node name="tracking_light" pkg="blueprintlab_reachalpha2_pantilt" type="tracking_light_node.py" output="screen">
+  </node>
+  <node name="Resolved_rate_controller" pkg="blueprintlab_reachalpha2_pantilt" type="motion_controller.py" output="screen">
+  </node>
+</launch>

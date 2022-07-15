@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<robot name="alpha_5" xmlns:xacro="http://ros.org/wiki/xacro">
+
+
+    <xacro:macro name="alpha_5" params="parent *origin name:=alpha_5">
+        <joint name="${name}_joint" type="fixed">
+            <xacro:insert_block name="origin" />
+            <parent link="${parent}"/>
+            <child link="${name}_base_link" />
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+        </joint>
+        <material name="alpha_black">
+            <color rgba="0.3 0.3 0.3 1"/>
+        </material>
+        <link name="${name}_base_link"/>
+        <link name="${name}_m3_inline_link">
+            <visual>
+                <geometry>
+                    <mesh filename="package://bpl_alpha_description/meshes/M3-INLINE.stl"/>
+                </geometry>
+                <origin rpy="0 0 0" xyz="0 0 0"/>
+                <material name="alpha_black"/>
+            </visual>
+            <collision>
+                <geometry>
+                    <cylinder length="0.150" radius="0.020" />
+                </geometry>
+                <origin rpy="0 1.57075 0" xyz="-0.075 0 0" />
+            </collision>
+
+        </link>
+        <joint name="alpha_joint1" type="revolute">
+            <parent link="${name}_base_link"/>
+            <child link="${name}_m3_inline_link"/>
+            <origin rpy="0 0 0"/>
+            <limit effort="9.0" lower="0.0" upper="6.3" velocity="0.5"/>
+        </joint>
+        <link name="${name}_m2_1_1_link">
+            <visual>
+                <geometry>
+                    <mesh filename="package://bpl_alpha_description/meshes/M2-1-1.stl"/>
+                </geometry>
+                <origin rpy="0 0 0" xyz="0 0 0"/>
+                <material name="${name}_black"/>
+            </visual>
+            <collision>
+                <geometry>
+                    <cylinder length="0.066" radius="0.020" />
+                </geometry>
+                <origin rpy="0 0 0" xyz="0 0 0.000" />
+            </collision>
+        </link>
+        <joint name="alpha_joint2" type="revolute">
+            <parent link="${name}_m3_inline_link"/>
+            <child link="${name}_m2_1_1_link"/>
+            <origin xyz="0 0 0.014"/>
+            <axis xyz="0 0 1"/>
+            <limit effort="9.0" lower="0.0" upper="6.3" velocity="0.5"/>
+        </joint>
+
+
+    </xacro:macro>
+</robot>
